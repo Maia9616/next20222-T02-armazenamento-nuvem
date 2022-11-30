@@ -1,9 +1,8 @@
 import json
 import hashlib
+
 from flask import Flask, Response, request
 from Controller.user_ctrl import create_user
-from sqlalchemy.orm import Session
-from Controller.plan_ctrl import get_plans as get_plan_from_ctrl
 
 app = Flask(__name__)
 
@@ -12,18 +11,7 @@ app = Flask(__name__)
 def hello_world():
     return ''
 
-
-@app.route("/plans", methods=["GET"])
-def get_plans():
-    response = Response()
-    response.content_type = "application/json"
-    response.status_code = 200
-    result = get_plan_from_ctrl()
-    response.data = json.dumps(result)
-    return response
-
-
-"""@app.route("/hash", methods=["GET","POST"])
+@app.route("/hash", methods=["GET","POST"])
 def hash():
     #pega dado da requisicao POST e transforma texto em objeto dict.
     request_data = json.dumps(request.get_json())
@@ -35,10 +23,9 @@ def hash():
     name_hash = hashlib.sha256(name.encode("UTF-8")).hexdigest()
     nameb_hash = hashlib.sha256(nameb.encode("UTF-8")).hexdigest()
     response.data = json.dumps({"hash": [name_hash, nameb_hash, request_data]})
-    return response"""
+    return response
 
-
-'''@app.route("/json")
+@app.route("/json")
 def world():
     data = "{ \"name\": \"Fernanda\" }"
     dict_data = json.loads(data)
@@ -46,10 +33,9 @@ def world():
     new_dict = dict({"name": "Fabio"})
     string_new_dict = json.dumps(new_dict)
     print(string_new_dict)
-    return dict_data'''
+    return dict_data
 
-
-@app.route("/user/<name>", methods=["GET"])
+@app.route("/user/<name>")
 def hello(name):
     id_user = create_user(name)
     return f'<p>{id_user}</p>'
@@ -57,3 +43,5 @@ def hello(name):
 
 if __name__ == '__main__':
     app.run()
+
+

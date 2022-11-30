@@ -1,9 +1,12 @@
-from Model.user import User
+import hashlib
+
+from Model.models import User
 
 
 def create_user(name):
     user = User()
     user.name = name
-    user.password = ""
+    user.email = "email"
+    user.password = hashlib.sha256(user.password.encode("UTF-8")).hexdigest()
     return user
 
